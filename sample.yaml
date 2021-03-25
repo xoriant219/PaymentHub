@@ -1,5 +1,17 @@
 ---
-- hosts: '{{inventory}}'
-  become: yes
-  roles:
-  - apache
+- name: sample
+  hosts: openshift_server
+  remote_user: root
+  tasks:
+        - name: install httpd
+          yum:
+              name: httpd
+              state: latest
+        - name: run httpd
+          service:
+                  name: httpd
+                  state: restarted
+        - name: create content
+          copy:
+               content: "congrats for installing ansible"
+               dest: /var/www/html/index.html
